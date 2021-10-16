@@ -39,10 +39,23 @@ const promptUser = () => {
       }
     },
     {
+      type: 'confirm',
+      name: 'confirmAbout',
+      message: 'Would you like to enter some information about yourself for an "About" section?',
+      default: true,
+    },
+    {
       type: 'input',
       name: 'about',
-      message: 'Provide some information about yourself: (Required)',
-    }
+      message: 'Provide some information about yourself:',
+      when: ({ confirmAbout }) => {
+        if (confirmAbout) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
   ]);
 };
 
@@ -58,7 +71,7 @@ const promptProject = portfolioData => {
             `);
   return inquirer.prompt
   //wait for inquirer prompt to go through and check if they want more
-  //begining of prompt
+  //beginning of prompt
   ([
     {
       type: 'input',
@@ -76,7 +89,15 @@ const promptProject = portfolioData => {
     {
       type: 'input',
       name: 'description',
-      message: 'Provide a description of the project (Required)'
+      message: 'Provide a description of the project (Required)',
+      validate: nameInput => {
+        if (nameInput) {
+          return true
+        } else {
+          console.log ("Please provide the project description.");
+          return false
+        }
+      }
     },
     {
       type: 'checkbox',
